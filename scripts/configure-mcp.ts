@@ -1,0 +1,12 @@
+import { realpath, stat, writeFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
+import { workspaceArgument } from '../plugins/latex-report-workbench/src/server/daemon.js';
+const projectRoot = fileURLToPath(new URL('../', import.meta.url));
+const pluginRoot = path.join(projectRoot, 'plugins/latex-report-workbench');
+const entry = path.join(pluginRoot, 'dist/server/stdio.js');
+await stat(entry);
+const root = await realpath(workspaceArgument());
+const config = { $schema: 'https://agent-plugins.org/schemas/1.0.0/mcp.schema.json', mcpServers: { 'latex-report-workbench': { type: 'stdio', command: process.execPath, args: [entry, '--workspace', root] } } };
+await writeFile(path.join(pluginRoot, 'mcp.json'), JSON.stringify(config, null, 2) + '\n');
+console.log('已生成本机 mcp.json（绝对路径；未安装、未启用、未修改 Codex 全局设置）。');

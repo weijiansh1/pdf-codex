@@ -1,0 +1,68 @@
+import { expect, it } from 'vitest';
+import { readFile } from 'node:fs/promises';
+import path from 'node:path';
+import { promisify } from 'node:util';
+import { execFile } from 'node:child_process';
+import { randomUUID } from 'node:crypto';
+import { fixture, settled } from '../helpers/workspace.js';
+import { buildPaths } from '../../plugins/latex-report-workbench/src/server/compiler.js';
+import { createApplication, type Application } from '../../plugins/latex-report-workbench/src/server/application.js';
+
+const run = promisify(execFile);
+it('real Chinese PDF ↔ SyncTeX → direct text commit → rebuilt PDF → export → restart → undo', async () => {
+  const f = await fixture('\\section{验收标题}\n原始中文正文，用于验证直接编辑。公式 $x^2$ 保持有效。\\cite{key}\\label{sec:a}%保留注释\n\n\\newpage\n第二页中文段落，用于测试页面位置。\n', '\\documentclass[UTF8]{ctexart}\n\\begin{document}\n\\input{chapters/正文}\n\\begin{thebibliography}{1}\n\\bibitem{key} 中文参考文献。\n\\end{thebibliography}\n\\end{document}\n');
+  let restarted: Application | undefined;
+  try {
+    const { buildId } = await f.app.call('report_compile', { reportId: f.reportId });
+    const first = await settled(f.app, f.reportId, buildId);
+    expect(first.status, JSON.stringify(first.diagnostics)).toBe('succeeded');
+    const forward = await f.app.call('report_locate_source', { reportId: f.reportId, buildId, relativePath: 'chapters/正文.tex', line: 2 });
+    expect(forward.locations.length).toBeGreaterThan(0);
+    const location = forward.locations[0]!;
+    const point = { x: location.rect[0] + 20, y: (location.rect[1] + location.rect[3]) / 2 };
+    const back = await f.app.call('report_locate_pdf', { reportId: f.reportId, buildId, page: location.page, point, selectedText: '原始中文正文' });
+    expect(back.candidates[0]?.relativePath, JSON.stringify({ forward, back })).toBe('chapters/正文.tex');
+    expect(back.candidates[0]?.exactText).toContain('原始中文正文');
+    const { session } = await f.app.call('pdf_edit_open', { reportId: f.reportId, contextId: f.contextId, viewId: f.viewId, buildId, page: location.page, point });
+    const editable = session.runs.find(r => r.kind === 'editable' && r.text.includes('原始中文正文'))!;
+    expect(editable).toBeDefined();
+    const changed = editable.text.replace('原始中文正文', '更新中文正文 50% & _ \\input{字面命令}');
+    const commit = { editSessionId: session.editSessionId, contextId: f.contextId, operationId: randomUUID(), expectedFileVersion: session.baseFileVersion, projectionVersion: session.projectionVersion, changes: [{ runId: editable.runId, text: changed }] };
+    const result = await f.app.call('pdf_edit_commit', commit);
+    expect(result.unchanged).toBe(false);
+    const retry = await f.app.call('pdf_edit_commit', commit);
+    expect(retry).toEqual(result);
+    const after = await f.app.call('report_read', { reportId: f.reportId, relativePath: 'chapters/正文.tex' });
+    expect(after.text).toContain('更新中文正文 50\\% \\& \\_ \\textbackslash{}input\\{字面命令\\}');
+    expect(after.text).toContain('$x^2$');
+    expect(after.text).toContain('\\label{sec:a}');
+    expect(after.text).toContain('\\cite{key}');
+    expect(after.text).toContain('%保留注释');
+    // Await the queue's final build, which may follow a build already running at commit time.
+    const second = await settled(f.app, f.reportId, result.buildId!);
+    expect(second?.inputVersions['chapters/正文.tex']).toBe(after.fileVersion);
+    const asset = Object.values(second!.assets).find(a => a.kind === 'pdf')!;
+    const pdfPath = path.join(buildPaths(f.app.workspace.layout.dir, f.reportId, second.buildId).directory, asset.fileName);
+    const { stdout } = await run('pdftotext', ['-enc', 'UTF-8', pdfPath, '-'], { windowsHide: true });
+    expect(stdout.replace(/\s/g, '')).toContain('更新中文正文50%&_');
+    expect(stdout.replace(/\s/g, '')).toContain('中文参考文献');
+    const exported = await f.app.call('report_export', { reportId: f.reportId, buildId: second!.buildId, format: 'pdf', operationId: randomUUID() });
+    expect(await readFile(path.join(f.reportRoot, exported.relativePath))).toEqual(await readFile(pdfPath));
+    const secondPage = (await f.app.call('report_locate_source', { reportId: f.reportId, buildId: second.buildId, relativePath: 'chapters/正文.tex', line: 5 })).locations.find(l => l.page === 2)!;
+    expect(secondPage).toBeDefined();
+    const secondSession = (await f.app.call('pdf_edit_open', { reportId: f.reportId, contextId: f.contextId, viewId: f.viewId, buildId: second.buildId, page: 2, point: { x: secondPage.rect[0] + 20, y: (secondPage.rect[1] + secondPage.rect[3]) / 2 } })).session;
+    expect(secondSession.placement.page).toBe(2);
+    await expect(f.app.call('pdf_edit_commit', { editSessionId: secondSession.editSessionId, contextId: f.contextId, operationId: randomUUID(), expectedFileVersion: secondSession.baseFileVersion, projectionVersion: secondSession.projectionVersion, changes: [{ runId: randomUUID(), text: '伪造 run' }] })).rejects.toMatchObject({ code: 'PDF_EDIT_SESSION_STALE' });
+    const noop = await f.app.call('pdf_edit_commit', { editSessionId: secondSession.editSessionId, contextId: f.contextId, operationId: randomUUID(), expectedFileVersion: secondSession.baseFileVersion, projectionVersion: secondSession.projectionVersion, changes: [] });
+    expect(noop).toEqual({ unchanged: true, buildId: null, operation: null });
+    expect((await f.app.call('report_history', { reportId: f.reportId })).operations).toHaveLength(1);
+    await f.app.close();
+    restarted = await createApplication(f.root);
+    expect(await restarted.call('pdf_edit_commit', commit)).toEqual(result);
+    const rebuilt = await restarted.call('report_compile', { reportId: f.reportId, force: true });
+    expect((await settled(restarted, f.reportId, rebuilt.buildId)).inputVersions['chapters/正文.tex']).toBe(after.fileVersion);
+    const operation = result.operation!;
+    await restarted.call('report_undo', { reportId: f.reportId, operationId: operation.operationId, expectedCurrentVersions: operation.afterVersions, undoOperationId: randomUUID() });
+    expect((await restarted.call('report_read', { reportId: f.reportId, relativePath: 'chapters/正文.tex' })).text).toContain('原始中文正文');
+  } finally { await restarted?.close(); await f.close(); }
+}, 180_000);

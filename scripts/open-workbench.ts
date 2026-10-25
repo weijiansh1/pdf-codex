@@ -1,0 +1,10 @@
+import { execFile } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+import { connectWorkspaceService, discoverService } from '../plugins/latex-report-workbench/src/server/service-client.js';
+const root = fileURLToPath(new URL('../', import.meta.url)).replace(/[\\/]$/, '');
+await connectWorkspaceService(root);
+const service = await discoverService(root);
+if (!service) throw new Error('工作台服务启动失败。');
+console.log(`LaTeX 报告工作台：${service.url}\n报告目录：${root}\\reports\n在页面右侧点击“启动 Codex”。`);
+const [command, args] = process.platform === 'win32' ? ['rundll32.exe', ['url.dll,FileProtocolHandler', service.url]] as const : process.platform === 'darwin' ? ['open', [service.url]] as const : ['xdg-open', [service.url]] as const;
+execFile(command, [...args], { shell: false, windowsHide: true }, error => { if (error) console.error(`请手动打开 ${service.url}`); });

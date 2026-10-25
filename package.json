@@ -1,0 +1,71 @@
+{
+  "name": "latex-report-workspace",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "description": "本地 HTML/LaTeX 报告工作台：网页内 Codex、即时预览与 PDF 导出",
+  "repository": { "type": "git", "url": "git+https://github.com/weijiansh1/pdf-codex.git" },
+  "homepage": "https://github.com/weijiansh1/pdf-codex#readme",
+  "bugs": { "url": "https://github.com/weijiansh1/pdf-codex/issues" },
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "workbench": "tsx scripts/open-workbench.ts",
+    "dev": "tsx scripts/dev.ts",
+    "start": "tsx plugins/latex-report-workbench/src/server/daemon.ts",
+    "mcp": "tsx plugins/latex-report-workbench/src/server/stdio.ts",
+    "doctor": "tsx scripts/doctor.ts",
+    "build": "npm run build:server && npm run build:ui && node scripts/bundle-widget.mjs",
+    "build:server": "tsc -p tsconfig.server.json",
+    "build:ui": "vite build",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run",
+    "test:unit": "vitest run tests/unit",
+    "test:integration": "vitest run tests/integration",
+    "test:tex": "vitest run tests/tex",
+    "test:e2e": "vitest run tests/e2e",
+    "configure:mcp": "tsx scripts/configure-mcp.ts",
+    "package:plugin": "tsx scripts/package-plugin.ts",
+    "verify:package": "tsx scripts/verify-package.ts",
+    "package:release": "tsx scripts/package-release.ts",
+    "verify:release": "tsx scripts/verify-release.ts"
+  },
+  "dependencies": {
+    "@codemirror/commands": "^6.11.1",
+    "@codemirror/language": "^6.13.1",
+    "@codemirror/legacy-modes": "^6.5.5",
+    "@codemirror/state": "^6.7.6",
+    "@codemirror/view": "^6.43.14",
+    "@modelcontextprotocol/ext-apps": "1.7.5",
+    "@modelcontextprotocol/sdk": "1.32.1",
+    "@openai/mcp-extensions": "0.1.0",
+    "@resvg/resvg-js": "2.6.2",
+    "@xterm/addon-fit": "^0.11.0",
+    "@xterm/xterm": "^6.0.0",
+    "katex": "0.19.1",
+    "node-pty": "^1.1.0",
+    "parse5": "8.0.1",
+    "pdfjs-dist": "^6.4.299",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "ws": "^8.22.0",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@types/ws": "^8.18.2",
+    "@vitejs/plugin-react": "6.1.2",
+    "happy-dom": "^21.0.4",
+    "tsx": "^4.0.0",
+    "typescript": "7.0.2",
+    "vite": "8.3.3",
+    "vitest": "5.0.3"
+  },
+  "overrides": {
+    "zod": "$zod"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "plugins/latex-report-workbench/src",
+    "outDir": "plugins/latex-report-workbench/dist",
+    "declaration": true, "sourceMap": true
+  },
+  "include": ["plugins/latex-report-workbench/src/server/**/*.ts", "plugins/latex-report-workbench/src/shared/**/*.ts"],
+  "exclude": ["node_modules", "plugins/**/dist"]
+}

@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "reportId": "463cf71a-2d87-42f7-8fd2-047c7f066fa4",
+  "title": "中文报告模板",
+  "mainFile": "main.tex",
+  "engine": "xelatex",
+  "bibliography": "none"
+}

@@ -1,0 +1,20 @@
+import type { FeatureStatus } from './contracts.js';
+export const FEATURES: readonly FeatureStatus[] = [
+  { id: 'html-authoring', title: 'HTML 快速编辑', milestone: 'M1', status: 'implemented', detail: 'HTML/CSS 增量预览、富文本改字、公式输入、草稿恢复；可导出网页样式或 LaTeX PDF，SVG 自动转换。' },
+  { id: 'contracts', title: '数据与工具契约', milestone: 'M0', status: 'implemented', detail: '严格校验标识、路径、范围、修改作用域与 PDF 提交。' },
+  { id: 'workspace-read', title: '本地报告读取', milestone: 'M1', status: 'implemented', detail: '发现 reports 下已注册报告，读取源码和文件树。' },
+  { id: 'mcp-transport', title: 'MCP 标准协议入口', milestone: 'M0', status: 'implemented', detail: 'stdio 入口、HTTP 本地服务与自包含 UI 资源；桌面端加载仍需单独验证。' },
+  { id: 'single-service', title: '单一本地服务状态', milestone: 'M0', status: 'implemented', detail: '每个工作区只有一个 daemon；HTTP 与全部 stdio 连接共用事务、队列、上下文，并支持断线重连。' },
+  { id: 'desktop-host', title: '桌面面板与宿主上下文', milestone: 'M0', status: 'unverified', detail: '已提供 SDK 适配器与能力探针；尚未在真实桌面端验证。' },
+  { id: 'report-management', title: '创建与导入报告', milestone: 'M1', status: 'implemented', detail: '模板创建、已有目录导入、幂等账本与稳定 reportId。' },
+  { id: 'outline', title: '章节语法索引', milestone: 'M1', status: 'implemented', detail: '词法扫描 heading/include，生成章节树、正文跨度与诊断。' },
+  { id: 'contexts', title: '会话选区与隔离', milestone: 'M1', status: 'implemented', detail: 'contextId/viewId 绑定、锚点重定位、版本校验与提交后重映射。' },
+  { id: 'transactions', title: '保存事务与修改历史', milestone: 'M1', status: 'implemented', detail: '条件修改、journal 恢复、草稿保存、真实 diff 与条件撤销。' },
+  { id: 'compiler', title: '多文件编译与不可变快照', milestone: 'M1', status: 'implemented', detail: '冻结快照、不可变 buildId、单队列、超时终止与 TEX 诊断解析。' },
+  { id: 'pdf-preview', title: 'PDF 页面预览', milestone: 'M2', status: 'implemented', detail: 'PDF.js 渲染成功构建的 PDF，字节只经 UI 工具分块传输。' },
+  { id: 'synctex', title: 'PDF 与源码双向定位', milestone: 'M2', status: 'implemented', detail: '基于冻结快照的 synctex view/edit 解析、坐标换算与候选判定。' },
+  { id: 'pdf-direct-edit', title: 'PDF 原位文字编辑', milestone: 'M2', status: 'implemented', detail: '可逆投影、受保护 token 校验、会话租约与重新编译写回；复杂宏明确拒绝。' },
+  { id: 'region-edit', title: '图表与区域选择', milestone: 'M3', status: 'implemented', detail: '框选经 SyncTeX 与词法环境扫描映射到 figure/table/equation；宿主图像上下文仍未验证。' },
+  { id: 'export-recovery', title: '导出、清理与恢复', milestone: 'M4', status: 'implemented', detail: 'PDF/源码 ZIP 导出、引用感知清理、工作区迁移与 journal 恢复。' },
+  { id: 'ui-workbench', title: '工作台界面', milestone: 'M1', status: 'implemented', detail: '章节/文件双树、CodeMirror 源码编辑、选区条、历史与撤销、导出入口。' },
+];

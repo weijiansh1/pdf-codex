@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>实验数据可视化与分析</title>
+  <style>
+    * { box-sizing: border-box; }
+    :root { --ink: #16233a; --muted: #3a4a63; --rule: #c9d3e2; --link: #245a9e; }
+    body { margin: 0; color: var(--ink); background: #f7f8fb; font: 20px/1.7 Georgia, "Songti SC", "SimSun", "Noto Serif SC", serif; }
+    .report { width: 1280px; min-height: 720px; margin: auto; padding: 42px 52px; background: white; box-shadow: 0 0 0 1px #e6ebf3; }
+    h1,h2 { font-family: "Segoe UI", "Microsoft YaHei", sans-serif; }
+    h1 { font-size: 34px; line-height: 1.35; margin: 0 0 12px; text-align: center; }
+    h2 { font-size: 24px; margin: 0 0 16px; padding-bottom: 6px; border-bottom: 1px solid var(--rule); }
+    p { margin: 12px 0; }
+    .subtitle { color: var(--muted); margin-bottom: 30px; text-align: center; }
+    .columns { display: flex; gap: 36px; }
+    .column { flex: 1; min-width: 0; }
+    table { width: 100%; border-collapse: collapse; font: 20px/1.5 "Segoe UI", "Microsoft YaHei", sans-serif; }
+    th,td { padding: 12px; text-align: left; border-bottom: 1px solid #e8edf5; }
+    th { border-top: 1.4px solid var(--ink); border-bottom: 1px solid var(--ink); font-weight: 600; }
+    tbody tr:last-child td { border-bottom: 1.4px solid var(--ink); }
+    .conclusion { margin-top: 22px; padding: 14px 4px; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+    li { margin-bottom: 14px; }
+  </style>
+</head>
+<body data-report-layout="slide">
+<article class="report" data-page-width="1280" data-page-height="720">
+  <h1>实验数据可视化与分析</h1>
+  <p class="subtitle">实验名称 · 小组 / 日期</p>
+  <div class="columns">
+    <div class="column" style="width:50%;">
+      <h2>实验数据</h2>
+      <table>
+        <thead><tr><th>工况</th><th>测量值</th><th>单位</th></tr></thead>
+        <tbody><tr><td>工况 1</td><td>待填写</td><td>—</td></tr><tr><td>工况 2</td><td>待填写</td><td>—</td></tr><tr><td>工况 3</td><td>待填写</td><td>—</td></tr></tbody>
+      </table>
+      <p>在这里插入图表图片，或让 Codex 根据真实实验数据绘图。</p>
+    </div>
+    <div class="column" style="width:50%;">
+      <h2>结果分析</h2>
+      <ul><li>描述主要趋势及其物理含义。</li><li>比较理论关系与实验结果。</li><li>结合测量方法分析误差来源。</li></ul>
+      <p>伯努利方程：<span data-tex="p+\frac{1}{2}\rho v^2=C"></span></p>
+    </div>
+  </div>
+  <p class="conclusion">结论：用一句话概括本次实验最重要的发现。</p>
+</article>
+</body>
+</html>
