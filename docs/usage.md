@@ -4,7 +4,7 @@ coPDF 把报告正文、源码、文件目录和 Codex 终端放在同一个网�
 
 本说明适用于v0.2.1，预编译运行包支持Windows x64、Node.js 24+。GitHub项目地址仍为 [weijiansh1/pdf-codex](https://github.com/weijiansh1/pdf-codex)。
 
-当前安装方式为GitHub公开发布包，不需要登录或2FA。npm短包名尚未发布，请使用下面的完整TGZ地址或ZIP。怎样提出要求和检查修改，见[协作指南](https://github.com/weijiansh1/pdf-codex/blob/main/docs/collaboration.md)。
+安装包通过GitHub Release提供。npm短包名尚未发布，请使用下面的完整TGZ地址或ZIP。怎样提出要求和检查修改，见[协作指南](https://github.com/weijiansh1/pdf-codex/blob/main/docs/collaboration.md)。
 
 ## 1. 安装前准备
 
@@ -16,7 +16,7 @@ coPDF 把报告正文、源码、文件目录和 Codex 终端放在同一个网�
 | LaTeX 排版 PDF | Pandoc、latexmk、XeLaTeX，文献按需使用 biber |
 | LaTeX 定位和对象截图 | SyncTeX、Poppler 的 pdftoppm/pdfinfo |
 
-安装和使用 coPDF 不需要 npm 账号。HTML 日常编辑和网页 PDF 导出不需要 TeX。
+HTML日常编辑和网页PDF导出不需要TeX。
 
 ## 2. 安装并打开工作台
 

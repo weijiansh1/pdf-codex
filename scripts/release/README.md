@@ -13,7 +13,7 @@ npm.cmd install -g https://github.com/weijiansh1/pdf-codex/releases/download/v0.
 copdf.cmd
 ```
 
-`copdf`默认在终端当前目录保存报告；可用 `--workspace` 指定已存在的工作目录，`--help` 查看参数。需要Windows x64和Node.js 24+。下载安装不需要登录或2FA，npm短包名尚未发布，请使用上面的完整地址。
+`copdf`默认在终端当前目录保存报告；可用 `--workspace` 指定已存在的工作目录，`--help` 查看参数。需要Windows x64和Node.js 24+。npm短包名尚未发布，请使用上面的完整地址。
 
 ## Windows x64 启动
 
