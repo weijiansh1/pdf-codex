@@ -1,13 +1,13 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "latex-report-workbench",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "本地 HTML/LaTeX 报告工作台：网页内 Codex、即时预览、文件与章节树、历史撤销及 PDF 导出。",
   "keywords": ["latex", "html", "pdf", "codex", "reports", "local-workspace"],
   "extensions": {
     "com.openai": {
       "interface": {
-        "displayName": "PDF Codex 报告工作台",
+        "displayName": "coPDF 报告工作台",
         "shortDescription": "在本地编写报告、与 Codex 协作并导出 PDF",
         "longDescription": "新建默认 HTML 论文或横版报告，改字即时预览，在网页终端与 Codex 对话，按选区条件修改并保存；保留 LaTeX 编译、PDF 正文编辑、版本历史和撤销。原生宿主能力须按实际握手验收。",
         "category": "Productivity",

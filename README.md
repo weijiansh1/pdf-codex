@@ -1,33 +1,33 @@
-# PDF Codex
+# coPDF
 
 **在同一个网页里写报告、与 Codex 协作、即时预览，完成后导出 PDF。**
 
 日常以 HTML 为主稿，普通改字和公式编辑直接更新预览；交付时可保留网页样式导出 PDF，也可使用 Pandoc / LaTeX 排版。报告、资源和版本历史保存在你选择的本地目录。
 
-[下载 v0.1.0](https://github.com/weijiansh1/pdf-codex/releases/tag/v0.1.0) · [提交问题](https://github.com/weijiansh1/pdf-codex/issues) · [MIT 许可证](LICENSE)
+[使用说明](docs/usage.md) · [npm 包](https://www.npmjs.com/package/copdf) · [下载 v0.2.0](https://github.com/weijiansh1/pdf-codex/releases/tag/v0.2.0) · [提交问题](https://github.com/weijiansh1/pdf-codex/issues) · [MIT 许可证](LICENSE)
 
 ## 一条命令安装
 
-首发支持 **Windows x64 / Node.js 24+**。在终端执行：
+当前运行包支持 **Windows x64 / Node.js 24+**。在终端执行：
 
 ```powershell
-npm install -g https://github.com/weijiansh1/pdf-codex/releases/download/v0.1.0/pdf-codex-0.1.0.tgz
+npm.cmd install -g copdf
 ```
 
 然后进入你存放报告的目录，运行：
 
 ```powershell
-pdf-codex
+copdf.cmd
 ```
 
-浏览器会打开工作台，报告保存在当前目录的 `reports/`。也可以执行 `pdf-codex --workspace "D:\我的报告"` 指定已存在的目录，`pdf-codex --help` 查看参数。命令安装包已经包含工作台依赖，使用 GitHub 下载地址即可安装，无需 Git 或 npm 账号。
+浏览器会打开工作台，报告保存在当前目录的 `reports/`。也可以执行 `copdf --workspace "D:\我的报告"` 指定已存在的目录，`copdf --help` 查看参数。命令安装包已经包含工作台依赖，无需 Git 或 npm 账号。在支持直接运行npm脚本的终端，也可用 `npm install -g copdf` 和 `copdf`。
 
 ## 下载压缩包使用
 
-首个预编译运行包适用于 **Windows x64**，需要 **Node.js 24+**。
+预编译运行包适用于 **Windows x64**，需要 **Node.js 24+**。
 
 1. 安装 [Node.js 24 或更高版本](https://nodejs.org/)。
-2. 从 [Releases](https://github.com/weijiansh1/pdf-codex/releases/tag/v0.1.0) 下载 `pdf-codex-v0.1.0-windows-x64.zip`。
+2. 从 [Releases](https://github.com/weijiansh1/pdf-codex/releases/tag/v0.2.0) 下载 `copdf-v0.2.0-windows-x64.zip`。
 3. 完整解压到一个可写目录，双击 **启动工作台.cmd**。
 4. 浏览器打开工作台后，从“目录”新建报告。文件默认保存在解压目录的 `reports/`。
 
@@ -101,7 +101,7 @@ npm.cmd run verify:release
 
 完整测试需要上表中的 TeX、Pandoc、浏览器和 Poppler；也可分别运行 `test:unit`、`test:integration`、`test:tex`。`verify:release` 会在独立中文目录验证搬移后的启动、同一 daemon、HTTP/stdio、原生终端和真实网页 PDF。
 
-发布包路径记录在 `.latex-workspace/packages/latest-release.json`，包含 ZIP、npm TGZ 和 `SHA256SUMS.txt`。`package:plugin` 生成的本机插件缓存与可移植发布包分别维护；打包不会自动安装或修改全局设置。当前命令安装使用 GitHub Release 的 TGZ；npm registry 的短名称发布需要维护者另外登录 npm。
+发布包路径记录在 `.latex-workspace/packages/latest-release.json`，包含 ZIP、npm TGZ 和 `SHA256SUMS.txt`。`package:plugin` 生成的本机插件缓存与可移植发布包分别维护；打包不会自动安装或修改全局设置。npm发布使用经过验收的TGZ，由维护者完成登录及发布认证；安装不需要npm账号。
 
 源码入口：`plugins/latex-report-workbench/src/{shared,server,ui}/`。更多内容见 [架构](docs/architecture.md)、[接口](docs/interfaces.md)、[排版约定](docs/report-style.md)、[故障排查](docs/troubleshooting.md)和[发布说明](docs/releasing.md)。
 

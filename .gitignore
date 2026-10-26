@@ -10,6 +10,7 @@ playwright-report/
 *.log
 .env
 .env.*
+.npmrc
 reports/**/exports/
 reports/**/*.aux
 reports/**/*.bcf

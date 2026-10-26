@@ -1,17 +1,19 @@
-# PDF Codex
+# coPDF
 
 在浏览器里写报告、预览网页和使用 Codex；需要交付时导出 PDF。
+
+完整操作教程见包内 **USAGE.md**，或打开 [在线使用说明](https://github.com/weijiansh1/pdf-codex/blob/main/docs/usage.md)。
 
 ## npm 安装
 
 也可以用一条命令安装，无需手动解压：
 
 ```powershell
-npm install -g https://github.com/weijiansh1/pdf-codex/releases/download/v0.1.0/pdf-codex-0.1.0.tgz
-pdf-codex
+npm.cmd install -g copdf
+copdf.cmd
 ```
 
-`pdf-codex` 默认在终端当前目录保存报告；可用 `--workspace` 指定已存在的工作目录，`--help` 查看参数。需要 Windows x64 和 Node.js 24+。
+`copdf` 默认在终端当前目录保存报告；可用 `--workspace` 指定已存在的工作目录，`--help` 查看参数。需要Windows x64和Node.js 24+。PowerShell可使用上面的.cmd命令，其他支持脚本的终端可直接使用 `npm install -g copdf` 和 `copdf`。
 
 ## Windows x64 启动
 

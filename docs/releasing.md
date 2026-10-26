@@ -1,6 +1,6 @@
 # 发布流程
 
-源码与发布资产使用同一版本号，位于 package.json 和插件元数据。首个版本为 v0.1.0，采用 MIT 许可证。
+源码与发布资产使用同一版本号，位于package.json和插件元数据。当前为coPDF v0.2.0，npm包和命令名为copdf，采用MIT许可证。旧PDF Codex v0.1.0下载保留，GitHub仓库地址不变。
 
 ## 构建与验收
 
@@ -15,13 +15,13 @@
 
 检查待提交文件仅含软件、模板、测试及公开说明。用户报告、内部验收截图、会话、凭证、历史、本机 marketplace 和构建输出应留在本地。
 
-将经过验证的提交推到目标仓库后，在该提交创建 `v<version>` 标签。GitHub Release 上传 `pdf-codex-v<version>-<platform>-<arch>.zip` 与 `SHA256SUMS.txt`；说明 Node 版本、适用系统、可选依赖、启动方式与已验收范围。
+将经过验证的提交推到目标仓库后，在该提交创建 `v<version>` 标签。GitHub Release上传 `copdf-v<version>-<platform>-<arch>.zip` 与 `SHA256SUMS.txt`；说明Node版本、适用系统、可选依赖、启动方式与已验收范围。
 
-同时上传 `pdf-codex-<version>.tgz`，用户可直接 `npm install -g <GitHub资产下载地址>`，然后运行 `pdf-codex`。安装包的bin入口默认在用户当前目录工作；ZIP启动器默认在解压目录工作。verify:release包含离线全局安装、bin入口、当前目录和原生SVG检查。
+同时上传 `copdf-<version>.tgz`，作为npm安装的备用下载。安装包的bin入口默认在用户当前目录工作；ZIP启动器默认在解压目录工作。verify:release包含离线全局安装、bin入口、当前目录和原生SVG检查。
 
 发布后检查远端 tag/commit、资产大小、下载文件 SHA256。源代码 ZIP 由 GitHub 根据 tag 提供；它需要安装依赖和构建，与预编译运行包分开说明。
 
-如需额外发布到npm registry，由维护者先完成npm登录及发布所需认证，再对已验证TGZ执行npm publish；GitHub Release发布不依赖npm登录。不要将尚未发布到registry的短名称命令写成可用入口。
+发布到npm registry前，维护者完成npm登录及发布所需认证，再对已验证TGZ执行 `npm publish <TGZ路径> --access public --registry=https://registry.npmjs.org/`。先用 `--dry-run` 核对名称、版本和内容；发布后检查registry中的dist.integrity与本地产物一致，安装 `copdf@<version>` 并验证CLI。不要从私有的源码根package.json直接发布。
 
 ## v0.1.0 首发范围
 

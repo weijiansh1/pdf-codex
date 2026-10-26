@@ -6,6 +6,7 @@ import { rolldown } from 'rolldown';
 import { buildZip } from '../plugins/latex-report-workbench/src/server/export.js';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
+const { version } = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8')) as { version: string };
 const source = path.join(root, 'plugins/latex-report-workbench');
 const directory = path.join(root, '.latex-workspace/packages', `latex-report-workbench-${Date.now()}`);
 await mkdir(directory, { recursive: true });
@@ -25,10 +26,10 @@ const resvgPackage = JSON.parse(await readFile(path.join(root, 'node_modules/@re
 for (const name of ['@resvg/resvg-js', ...Object.keys(resvgPackage.optionalDependencies as Record<string, string>).filter(name => {
   const folder = path.join(root, 'node_modules', name); return name.includes(`-${process.platform}-${process.arch}`) && existsSync(folder);
 })]) await cp(path.join(root, 'node_modules', name), path.join(directory, 'dist/server/vendor/node_modules', name), { recursive: true });
-await writeFile(path.join(directory, 'package.json'), JSON.stringify({ name: 'latex-report-workbench', version: '0.1.0', private: true, type: 'module', engines: { node: '>=24' } }, null, 2));
+await writeFile(path.join(directory, 'package.json'), JSON.stringify({ name: 'latex-report-workbench', version, private: true, type: 'module', engines: { node: '>=24' } }, null, 2));
 const launch = "const p=require('node:path'); const u=require('node:url'); const root=process.env.PLUGIN_ROOT||process.env.CLAUDE_PLUGIN_ROOT; if(!root) throw Error('Plugin root missing'); import(u.pathToFileURL(p.join(root,'dist/server/stdio.js')).href);";
 await writeFile(path.join(directory, 'mcp.json'), JSON.stringify({ $schema: 'https://agent-plugins.org/schemas/1.0.0/mcp.schema.json', mcpServers: { 'latex-report-workbench': { type: 'stdio', command: process.execPath, args: ['-e', launch, '--', 'workbench', '--workspace', root] } } }, null, 2));
-const notices: string[] = ['LaTeX Report Workbench 0.1.0\nOriginal code in this workspace. No reference attachment code was copied.\n\nBundled dependency licenses:\n'];
+const notices: string[] = [`coPDF ${version}\nOriginal code in this workspace. No reference attachment code was copied.\n\nBundled dependency licenses:\n`];
 const dependencies = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8')).dependencies as Record<string, string>;
 for (const name of Object.keys(dependencies)) {
   const folder = path.join(root, 'node_modules', name);
@@ -49,5 +50,5 @@ const zip = `${directory}.zip`;
 await writeFile(zip, buildZip(entries));
 await writeFile(path.join(root, '.latex-workspace/packages/latest.json'), JSON.stringify({ directory, zip }, null, 2));
 await mkdir(path.join(root, '.agents/plugins'), { recursive: true });
-await writeFile(path.join(root, '.agents/plugins/marketplace.json'), JSON.stringify({ name: 'latex-report-workspace-local', interface: { displayName: '本地 LaTeX 报告工作台' }, plugins: [{ name: 'latex-report-workbench', source: { source: 'local', path: directory }, policy: { installation: 'AVAILABLE', authentication: 'ON_INSTALL' }, category: 'Productivity' }] }, null, 2));
+await writeFile(path.join(root, '.agents/plugins/marketplace.json'), JSON.stringify({ name: 'latex-report-workspace-local', interface: { displayName: 'coPDF 本地报告工作台' }, plugins: [{ name: 'latex-report-workbench', source: { source: 'local', path: directory }, policy: { installation: 'AVAILABLE', authentication: 'ON_INSTALL' }, category: 'Productivity' }] }, null, 2));
 console.log(`安装包已生成：${zip}\n缓存副本：${directory}\n工作区固定在 ${root}；没有自动安装或修改全局配置。`);

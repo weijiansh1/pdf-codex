@@ -13,7 +13,8 @@ import { UI_RESOURCE_URI } from '../plugins/latex-report-workbench/src/server/mc
 const projectRoot = fileURLToPath(new URL('../', import.meta.url));
 const pluginRoot = new URL('../plugins/latex-report-workbench/', import.meta.url);
 const manifest = JSON.parse(await readFile(new URL('plugin.json', pluginRoot), 'utf8')) as { name: string; version: string };
-assert.equal(manifest.name, 'latex-report-workbench'); assert.equal(manifest.version, '0.1.0');
+const project = JSON.parse(await readFile(path.join(projectRoot, 'package.json'), 'utf8')) as { version: string };
+assert.equal(manifest.name, 'latex-report-workbench'); assert.equal(manifest.version, project.version);
 const latest = JSON.parse(await readFile(path.join(projectRoot, '.latex-workspace/packages/latest.json'), 'utf8')) as { directory: string };
 const isolated = await mkdtemp(path.join(os.tmpdir(), 'latex-package-'));
 const cached = path.join(isolated, '插件 缓存');

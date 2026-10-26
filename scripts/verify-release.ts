@@ -17,8 +17,9 @@ const source = directoryIndex >= 0 ? path.resolve(process.argv[directoryIndex + 
 assert(await stat(path.join(source, 'start.mjs')).then(s => s.isFile()).catch(() => false), '发布包缺少可移植启动器 start.mjs');
 const metadata = JSON.parse(await readFile(path.join(source, 'release.json'), 'utf8')) as { version: string; platform: string; arch: string };
 assert.equal(metadata.platform, process.platform); assert.equal(metadata.arch, process.arch);
-const packageInfo = JSON.parse(await readFile(path.join(source, 'package.json'), 'utf8')) as { bin?: Record<string, string> };
-assert.equal(packageInfo.bin?.['pdf-codex'], 'bin/pdf-codex.mjs', '发布包缺少npm命令入口');
+const packageInfo = JSON.parse(await readFile(path.join(source, 'package.json'), 'utf8')) as { name: string; bin?: Record<string, string> };
+assert.equal(packageInfo.name, 'copdf', '发布包必须使用copdf名称');
+assert.equal(packageInfo.bin?.copdf, 'bin/copdf.mjs', '发布包缺少copdf命令入口');
 const inspect = async (folder: string, relative = ''): Promise<void> => {
   for (const item of await readdir(folder, { withFileTypes: true })) {
     const next = relative ? `${relative}/${item.name}` : item.name;
@@ -71,13 +72,13 @@ try {
   assert(process.env.npm_execpath, '请用npm run verify:release执行npm安装验收');
   const prefix = path.join(isolated, 'npm 全局安装');
   await run(process.execPath, [process.env.npm_execpath, 'install', '--global', '--prefix', prefix, '--ignore-scripts', '--no-audit', '--no-fund', '--offline', release.npmPackage], { cwd: isolated, shell: false, windowsHide: true, timeout: 40_000, maxBuffer: 2_097_152 });
-  const installed = path.join(prefix, ...(process.platform === 'win32' ? [] : ['lib']), 'node_modules/pdf-codex');
-  const installedCli = path.join(installed, 'bin/pdf-codex.mjs');
+  const installed = path.join(prefix, ...(process.platform === 'win32' ? [] : ['lib']), 'node_modules/copdf');
+  const installedCli = path.join(installed, 'bin/copdf.mjs');
   const help = await run(process.execPath, [installedCli, '--help'], { cwd: unpacked, shell: false, windowsHide: true });
-  assert(help.stdout.includes('用法：pdf-codex'));
+  assert(help.stdout.includes('用法：copdf'));
   await run(process.execPath, [installedCli, '--no-open'], { cwd: unpacked, shell: false, windowsHide: true, timeout: 30_000 });
   assert.equal((await readService()).pid, first.pid, 'npm命令默认使用当前报告目录');
-  assert(await stat(path.join(prefix, process.platform === 'win32' ? 'pdf-codex.cmd' : 'bin/pdf-codex')).then(s => s.isFile()));
+  assert(await stat(path.join(prefix, process.platform === 'win32' ? 'copdf.cmd' : 'bin/copdf')).then(s => s.isFile()));
   // Check the real installed native SVG payload as well as the CLI's JavaScript.
   const svgProbe = "const {Resvg}=require(process.argv[1]);const b=new Resvg('<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"10\"></svg>').render().asPng();if(Buffer.from(b).subarray(1,4).toString()!=='PNG')process.exit(3);";
   await run(process.execPath, ['-e', svgProbe, path.join(installed, 'dist/server/vendor/node_modules/@resvg/resvg-js/index.js')], { cwd: isolated, shell: false, windowsHide: true, timeout: 15_000 });
