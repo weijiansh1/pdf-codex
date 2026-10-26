@@ -2,21 +2,23 @@
 
 安装后的完整流程见 [coPDF使用说明](usage.md)：新建报告、直接改字、公式、Codex选区修改、导出与备份。
 
+使用GitHub公开发布的ZIP或TGZ，不需要账号或2FA。npm短包名尚未发布，安装命令使用完整下载地址。
+
 ## npm 命令安装
 
 安装 Node.js 24+ 后执行：
 
 ```powershell
-npm.cmd install -g copdf
+npm.cmd install -g https://github.com/weijiansh1/pdf-codex/releases/download/v0.2.1/copdf-0.2.1.tgz
 ```
 
 进入报告工作目录，运行 `copdf.cmd`。默认读取当前目录，不在全局安装目录存报告。也可传 `--workspace "D:\我的报告"`、`--no-open`、`--help` 或 `--version`。运行包为Windows x64，依赖已经打包，不需要Git或npm登录。终端可直接运行脚本时，也可用 `copdf`。
 
-更新时执行 `npm.cmd install -g copdf@latest`；先保存内容并关闭原服务，再运行命令。卸载用 `npm.cmd uninstall -g copdf`，报告仍在原工作目录。
+更新时用新发布页的TGZ完整地址重新安装；先保存内容并关闭原服务，再运行命令。卸载用 `npm.cmd uninstall -g copdf`，报告仍在原工作目录。
 
 ## Windows x64 运行包
 
-从 [v0.2.0 发布页](https://github.com/weijiansh1/pdf-codex/releases/tag/v0.2.0) 下载ZIP。安装Node.js 24+，完整解压，再双击启动器。无需下载源码或安装npm依赖。
+从 [v0.2.1发布页](https://github.com/weijiansh1/pdf-codex/releases/tag/v0.2.1) 下载ZIP。安装Node.js 24+，完整解压，再双击启动器。无需下载源码或安装npm依赖。
 
 工作台优先使用 `http://127.0.0.1:4317`，端口已占用时会选择可用端口，启动窗口输出实际地址。只监听本机回环地址。
 

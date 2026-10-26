@@ -1,6 +1,6 @@
 {
   "name": "copdf-workspace",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "license": "MIT",
   "description": "本地 HTML/LaTeX 报告工作台：网页内 Codex、即时预览与 PDF 导出",

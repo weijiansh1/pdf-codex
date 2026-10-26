@@ -8,7 +8,7 @@ import { toErrorEnvelope } from '../shared/errors.js';
 import type { Application } from './application.js';
 export const UI_RESOURCE_URI = 'ui://latex-report-workbench/v0.1.0/workbench.html';
 export function createMcpServer(app: Pick<Application, 'call'>, widgetPath: string): McpServer {
-  const server = new McpServer({ name: 'latex-report-workbench', version: '0.2.0' });
+  const server = new McpServer({ name: 'latex-report-workbench', version: '0.2.1' });
   for (const name of TOOL_NAMES) {
     const spec = TOOL_CATALOG[name];
     const openaiUi: OpenAIUiToolMetadata = { entrypoints: [{ type: 'thread' }] };

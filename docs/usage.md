@@ -2,7 +2,9 @@
 
 coPDF 把报告正文、源码、文件目录和 Codex 终端放在同一个网页里。日常编辑 HTML，保存后直接看效果；需要交付时再导出 PDF。
 
-本说明适用于 v0.2.0，预编译运行包支持 Windows x64、Node.js 24+。GitHub 项目地址仍为 [weijiansh1/pdf-codex](https://github.com/weijiansh1/pdf-codex)。
+本说明适用于v0.2.1，预编译运行包支持Windows x64、Node.js 24+。GitHub项目地址仍为 [weijiansh1/pdf-codex](https://github.com/weijiansh1/pdf-codex)。
+
+当前安装方式为GitHub公开发布包，不需要登录或2FA。npm短包名尚未发布，请使用下面的完整TGZ地址或ZIP。怎样提出要求和检查修改，见[协作指南](https://github.com/weijiansh1/pdf-codex/blob/main/docs/collaboration.md)。
 
 ## 1. 安装前准备
 
@@ -23,7 +25,7 @@ coPDF 把报告正文、源码、文件目录和 Codex 终端放在同一个网�
 安装好 [Node.js](https://nodejs.org/) 后，在 PowerShell 执行：
 
 ```powershell
-npm.cmd install -g copdf
+npm.cmd install -g https://github.com/weijiansh1/pdf-codex/releases/download/v0.2.1/copdf-0.2.1.tgz
 ```
 
 创建一个保存报告的目录，进入它，再启动：
@@ -50,11 +52,11 @@ copdf.cmd --help
 copdf.cmd --version
 ```
 
-`--no-open` 只启动服务并输出地址。PowerShell 示例使用 `.cmd`；支持直接运行脚本的终端，也可输入 `npm install -g copdf` 和 `copdf`。
+`--no-open`只启动服务并输出地址。PowerShell示例使用 `.cmd`；支持直接运行脚本的终端，也可输入 `npm install -g <上面的完整地址>` 和 `copdf`。
 
 ### ZIP 安装
 
-从 [v0.2.0 发布页](https://github.com/weijiansh1/pdf-codex/releases/tag/v0.2.0) 下载 `copdf-v0.2.0-windows-x64.zip`，完整解压到可写目录，双击 **启动工作台.cmd**。
+从 [v0.2.1发布页](https://github.com/weijiansh1/pdf-codex/releases/tag/v0.2.1) 下载 `copdf-v0.2.1-windows-x64.zip`，完整解压到可写目录，双击 **启动工作台.cmd**。
 
 ZIP 启动器默认在解压目录保存报告。程序和报告分开存放时，在解压目录运行 `node start.mjs --workspace "D:\我的报告"`。
 
@@ -183,10 +185,10 @@ q = \frac{1}{2}\rho V^2
 
 备份整个工作目录，至少同时保留 `reports/` 和 `.latex-workspace/`。前者保存原稿/资源，后者保存历史、草稿和恢复信息。
 
-更新已发布的 npm 版本：
+更新时使用新发布页中TGZ的完整地址，例如：
 
 ```powershell
-npm.cmd install -g copdf@latest
+npm.cmd install -g https://github.com/weijiansh1/pdf-codex/releases/download/v0.2.1/copdf-0.2.1.tgz
 ```
 
 先保存内容，启动新版前关闭旧服务。旧服务仍运行时，启动器会复用它，不会自动结束你的终端。具体步骤见 [安装与升级](https://github.com/weijiansh1/pdf-codex/blob/main/docs/installation.md)。

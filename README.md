@@ -4,14 +4,16 @@
 
 日常以 HTML 为主稿，普通改字和公式编辑直接更新预览；交付时可保留网页样式导出 PDF，也可使用 Pandoc / LaTeX 排版。报告、资源和版本历史保存在你选择的本地目录。
 
-[使用说明](docs/usage.md) · [npm 包](https://www.npmjs.com/package/copdf) · [下载 v0.2.0](https://github.com/weijiansh1/pdf-codex/releases/tag/v0.2.0) · [提交问题](https://github.com/weijiansh1/pdf-codex/issues) · [MIT 许可证](LICENSE)
+[协作指南](docs/collaboration.md) · [使用说明](docs/usage.md) · [下载 v0.2.1](https://github.com/weijiansh1/pdf-codex/releases/tag/v0.2.1) · [提交问题](https://github.com/weijiansh1/pdf-codex/issues) · [MIT 许可证](LICENSE)
 
-## 一条命令安装
+下载和安装使用GitHub公开发布包，不需要账号或2FA。npm短包名 `copdf` 尚未发布，命令安装使用下面的完整下载地址。
 
-当前运行包支持 **Windows x64 / Node.js 24+**。在终端执行：
+## 一条命令安装（无需账号）
+
+运行包支持 **Windows x64 / Node.js 24+**。在终端执行：
 
 ```powershell
-npm.cmd install -g copdf
+npm.cmd install -g https://github.com/weijiansh1/pdf-codex/releases/download/v0.2.1/copdf-0.2.1.tgz
 ```
 
 然后进入你存放报告的目录，运行：
@@ -20,14 +22,14 @@ npm.cmd install -g copdf
 copdf.cmd
 ```
 
-浏览器会打开工作台，报告保存在当前目录的 `reports/`。也可以执行 `copdf --workspace "D:\我的报告"` 指定已存在的目录，`copdf --help` 查看参数。命令安装包已经包含工作台依赖，无需 Git 或 npm 账号。在支持直接运行npm脚本的终端，也可用 `npm install -g copdf` 和 `copdf`。
+浏览器会打开工作台，报告保存在当前目录的 `reports/`。也可以执行 `copdf --workspace "D:\我的报告"` 指定已存在的目录，`copdf --help` 查看参数。依赖已经包含在安装包中，无需Git、npm账号或发布权限。支持直接运行脚本的终端，也可用 `npm install -g <上面的完整地址>` 和 `copdf`。
 
 ## 下载压缩包使用
 
 预编译运行包适用于 **Windows x64**，需要 **Node.js 24+**。
 
 1. 安装 [Node.js 24 或更高版本](https://nodejs.org/)。
-2. 从 [Releases](https://github.com/weijiansh1/pdf-codex/releases/tag/v0.2.0) 下载 `copdf-v0.2.0-windows-x64.zip`。
+2. 从 [Releases](https://github.com/weijiansh1/pdf-codex/releases/tag/v0.2.1) 下载 `copdf-v0.2.1-windows-x64.zip`。
 3. 完整解压到一个可写目录，双击 **启动工作台.cmd**。
 4. 浏览器打开工作台后，从“目录”新建报告。文件默认保存在解压目录的 `reports/`。
 

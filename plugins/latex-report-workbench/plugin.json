@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "latex-report-workbench",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "本地 HTML/LaTeX 报告工作台：网页内 Codex、即时预览、文件与章节树、历史撤销及 PDF 导出。",
   "keywords": ["latex", "html", "pdf", "codex", "reports", "local-workspace"],
   "extensions": {
